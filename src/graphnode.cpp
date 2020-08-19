@@ -11,7 +11,8 @@ GraphNode::~GraphNode()
     //// STUDENT CODE
     ////
 
-    delete _chatBot; 
+    // Task 0: Warm Up Bug, chatbot should be deleted from within chatbot class (double deletion)
+    // delete _chatBot; 
 
     ////
     //// EOF STUDENT CODE
