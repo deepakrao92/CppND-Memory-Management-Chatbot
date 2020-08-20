@@ -43,9 +43,104 @@ ChatBot::~ChatBot()
 }
 
 //// STUDENT CODE
-////
+// Task 2: Rule of Five
 
-////
+//Copy Constructor
+ChatBot::ChatBot(const ChatBot &source)
+{
+    std::cout << "Chatbot Copy Constructor" << std::endl;
+
+    // Shallow Copy for non owned objects
+    // SetCurrentNode(source._currentNode); 
+    // segmentation error when using setter method for current node,
+    _currentNode = source._currentNode;
+    SetRootNode(source._rootNode);
+    SetChatLogicHandle(source._chatLogic);
+
+    // Deep Copy for owned objects
+    _image = new wxBitmap();
+    _image = source._image;
+    *_image = *source._image;
+}
+
+// Copy Assignment Operator
+ChatBot &ChatBot::operator=(const ChatBot &source)
+{
+    std::cout << "Chatbot Copy Assignment Operator" << std::endl;
+    if(this == &source)
+        return *this;
+
+    if(source._image != nullptr)
+        delete this->_image;
+
+    // Shallow Copy for non owned objects
+    // SetCurrentNode(source._currentNode);
+    _currentNode = source._currentNode;
+    SetRootNode(source._rootNode);
+    SetChatLogicHandle(source._chatLogic);
+
+    // Deep Copy for owned objects
+    _image = new wxBitmap();
+    _image = source._image;
+    *_image = *source._image;
+
+    return *this;
+}
+
+// Move Constructor
+ChatBot::ChatBot(ChatBot &&source)
+{
+    std::cout << "Chatbot Move Constructor" << std::endl;
+
+    // Shallow Copy for non owned objects
+    // SetCurrentNode(source._currentNode);
+    _currentNode = source._currentNode;
+    SetRootNode(source._rootNode);
+    SetChatLogicHandle(source._chatLogic);
+    _chatLogic->SetChatbotHandle(this);
+
+    // Deep Copy for owned objects
+    _image = source._image;
+    *_image = *source._image;
+
+    //Invalidate source handles
+    source._chatLogic = nullptr;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._image = NULL;
+}                 
+
+// Move Assignment Operator
+ChatBot &ChatBot::operator=(ChatBot &&source)
+{
+    std::cout << "Chatbot Move Assignment Operator" << std::endl;
+
+    if(this == &source)
+        return *this;
+
+    if(source._image != nullptr)
+        delete this->_image;
+
+    // Shallow Copy for non owned objects
+    // SetCurrentNode(source._currentNode);
+    _currentNode = source._currentNode;
+    SetRootNode(source._rootNode);
+    SetChatLogicHandle(source._chatLogic);
+    _chatLogic->SetChatbotHandle(this);
+
+    // Deep Copy for owned objects
+    _image = source._image;
+    *_image = *source._image;
+
+    //Invalidate source handles
+    source._chatLogic = nullptr;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._image = NULL;
+
+    return *this;
+}      
+
 //// EOF STUDENT CODE
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
