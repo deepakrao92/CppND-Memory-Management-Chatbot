@@ -56,6 +56,7 @@ ChatBot::ChatBot(const ChatBot &source)
     _currentNode = source._currentNode;
     SetRootNode(source._rootNode);
     SetChatLogicHandle(source._chatLogic);
+    _chatLogic->SetChatbotHandle(this);
 
     // Deep Copy for owned objects
     _image = new wxBitmap();
@@ -78,6 +79,7 @@ ChatBot &ChatBot::operator=(const ChatBot &source)
     _currentNode = source._currentNode;
     SetRootNode(source._rootNode);
     SetChatLogicHandle(source._chatLogic);
+    _chatLogic->SetChatbotHandle(this);
 
     // Deep Copy for owned objects
     _image = new wxBitmap();
